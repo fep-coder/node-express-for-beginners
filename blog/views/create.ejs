@@ -1,0 +1,18 @@
+<%- include('_layouts/header'); -%>
+
+    <h1>Create new post</h1>
+
+    <form method="post" action="/posts/create">
+        <div class="form-group pt-3">
+            <label>Title</label>
+            <input type="text" class="form-control" name="title"></input>
+        </div>
+        <div class="form-group pt-3">
+            <label>Body</label>
+            <textarea rows="5" class="form-control" name="body"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary mt-4" id="addPost">Add post</button>
+        </div>
+    </form>
+
+<%- include('_layouts/footer'); -%>
