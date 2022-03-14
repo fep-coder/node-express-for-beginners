@@ -2,18 +2,21 @@ const express = require("express");
 
 const app = express();
 
+const ejs = require("ejs");
+app.set("view engine", "ejs");
+
 app.use(express.static("public"));
 
 app.get("/", (req, res) => {
-    res.sendFile("pages/index.html", { root: "public" });
+    res.render("index");
 });
 
 app.get("/about", (req, res) => {
-    res.sendFile("pages/about.html", { root: "public" });
+    res.render("about");
 });
 
 app.get("/contact", (req, res) => {
-    res.sendFile("pages/contact.html", { root: "public" });
+    res.render("contact");
 });
 
 app.listen(3000, () => {
