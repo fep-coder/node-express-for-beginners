@@ -16,8 +16,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static("public"));
 
-app.get("/", (req, res) => {
-    res.render("index");
+app.get("/", async (req, res) => {
+    const posts = await Post.find({});
+    console.log(posts);
+    res.render("index", { posts });
 });
 
 app.get("/about", (req, res) => {
@@ -31,12 +33,6 @@ app.get("/contact", (req, res) => {
 app.get("/posts/create", (req, res) => {
     res.render("create");
 });
-
-// app.post("/posts/create", (req, res) => {
-//     Post.create(req.body, (error, post) => {
-//         res.redirect("/");
-//     });
-// });
 
 app.post("/posts/create", async (req, res) => {
     await Post.create(req.body);

@@ -4,6 +4,11 @@ const Schema = mongoose.Schema;
 const PostSchema = new Schema({
     title: String,
     body: String,
+    username: String,
+    datePosted: {
+        type: Date,
+        default: new Date(),
+    },
 });
 
 const Post = mongoose.model("Post", PostSchema);
