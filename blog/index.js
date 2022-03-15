@@ -1,6 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+const fileUpload = require("express-fileupload");
+const path = require("path");
 
 const app = express();
 
@@ -13,8 +15,8 @@ app.set("view engine", "ejs");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
 app.use(express.static("public"));
+app.use(fileUpload());
 
 app.get("/", async (req, res) => {
     const posts = await Post.find({});
@@ -35,7 +37,13 @@ app.get("/posts/create", (req, res) => {
 });
 
 app.post("/posts/create", async (req, res) => {
-    await Post.create(req.body);
+    const image = req.files?.image;
+
+    if (image) {
+        image.mv(path.resolve(__dirname, "public/images", image.name));
+    }
+
+    await Post.create({ ...req.body, image: image?.name ?? "noimage.png" });
     res.redirect("/");
 });
 
