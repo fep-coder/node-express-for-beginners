@@ -18,9 +18,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(fileUpload());
 
+const customMiddleware = (req, res, next) => {
+    console.log("Custom middleware called");
+    next();
+};
+app.use(customMiddleware);
+
 app.get("/", async (req, res) => {
     const posts = await Post.find({});
-    console.log(posts);
+    // console.log(posts);
     res.render("index", { posts });
 });
 
