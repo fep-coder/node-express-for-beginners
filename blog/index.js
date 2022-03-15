@@ -18,11 +18,19 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(fileUpload());
 
-const customMiddleware = (req, res, next) => {
-    console.log("Custom middleware called");
+// const customMiddleware = (req, res, next) => {
+//     console.log("Custom middleware called");
+//     next();
+// };
+// app.use(customMiddleware);
+
+const validateMiddleware = (req, res, next) => {
+    if (req.body.title == "" || req.body.body == "") {
+        return res.redirect("/posts/create");
+    }
     next();
 };
-app.use(customMiddleware);
+app.use("/posts/create", validateMiddleware);
 
 app.get("/", async (req, res) => {
     const posts = await Post.find({});
