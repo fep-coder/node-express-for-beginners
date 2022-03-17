@@ -6,16 +6,16 @@ const uniqueValidator = require("mongoose-unique-validator");
 const UserSchema = new Schema({
     username: {
         type: String,
-        required: true,
+        required: [true, "Username is required"],
         unique: true,
     },
     password: {
         type: String,
-        required: true,
+        required: [true, "Password is required"],
     },
 });
 
-UserSchema.plugin(uniqueValidator);
+UserSchema.plugin(uniqueValidator, { message: "{PATH} must be unique" });
 
 UserSchema.pre("save", function (next) {
     bcrypt.hash(this.password, 10, (error, hash) => {
