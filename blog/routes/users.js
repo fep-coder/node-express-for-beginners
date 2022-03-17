@@ -4,24 +4,30 @@ const bcrypt = require("bcrypt");
 
 const User = require("../models/User");
 
-router.get("/register", (req, res) => {
+const redirectIfAuthenticatedMiddleware = require("../middleware/redirectIfAuthenticatedMiddleware");
+
+router.get("/register", redirectIfAuthenticatedMiddleware, (req, res) => {
     res.render("register");
 });
 
-router.post("/register", async (req, res) => {
-    try {
-        await User.create(req.body);
-    } catch (error) {
-        console.log(error);
+router.post(
+    "/register",
+    redirectIfAuthenticatedMiddleware,
+    async (req, res) => {
+        try {
+            await User.create(req.body);
+        } catch (error) {
+            console.log(error);
+        }
+        res.redirect("/");
     }
-    res.redirect("/");
-});
+);
 
-router.get("/login", (req, res) => {
+router.get("/login", redirectIfAuthenticatedMiddleware, (req, res) => {
     res.render("login");
 });
 
-router.post("/login", async (req, res) => {
+router.post("/login", redirectIfAuthenticatedMiddleware, async (req, res) => {
     const { username, password } = req.body;
 
     const user = await User.findOne({ username: username });
@@ -30,6 +36,7 @@ router.post("/login", async (req, res) => {
         bcrypt.compare(password, user.password, (error, match) => {
             if (match) {
                 req.session.userId = user._id;
+                req.app.locals.loggedIn = true;
                 res.redirect("/");
             } else {
                 res.redirect("/users/login");

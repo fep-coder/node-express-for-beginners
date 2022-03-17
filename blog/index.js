@@ -14,6 +14,8 @@ const Post = require("./models/Post");
 const ejs = require("ejs");
 app.set("view engine", "ejs");
 
+app.locals.loggedIn = false;
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
