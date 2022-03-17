@@ -26,7 +26,9 @@ const validateMiddleware = (req, res, next) => {
 };
 app.use("/posts/create", validateMiddleware);
 
+// Set the routes
 const posts = require("./routes/posts");
+const users = require("./routes/users");
 
 app.get("/about", (req, res) => {
     res.render("about");
@@ -36,9 +38,11 @@ app.get("/contact", (req, res) => {
     res.render("contact");
 });
 
+app.use("/users", users);
 app.use("/posts", posts);
 app.use("/", posts);
 
+// Start the server
 app.listen(3000, () => {
     console.log("App listening on port 3000");
 });
