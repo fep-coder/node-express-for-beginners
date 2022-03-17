@@ -4,6 +4,8 @@ const path = require("path");
 
 const Post = require("../models/Post");
 
+const authMiddleware = require("../middleware/authMiddleware");
+
 router.get("/", async (req, res) => {
     const posts = await Post.find({});
     console.log(req.session);
@@ -14,11 +16,8 @@ router.get("/post/:id", async (req, res) => {
     const post = await Post.findById(req.params.id);
     res.render("post", { post });
 });
-router.get("/create", (req, res) => {
-    if (req.session.userId) {
-        return res.render("create");
-    }
-    res.redirect("/users/login");
+router.get("/create", authMiddleware, (req, res) => {
+    return res.render("create");
 });
 
 router.post("/posts/create", async (req, res) => {
