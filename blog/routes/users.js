@@ -7,7 +7,19 @@ const User = require("../models/User");
 const redirectIfAuthenticatedMiddleware = require("../middleware/redirectIfAuthenticatedMiddleware");
 
 router.get("/register", redirectIfAuthenticatedMiddleware, (req, res) => {
-    res.render("register", { errors: req.flash("validationErrors") });
+    let username = "";
+    let password = "";
+
+    const data = req.flash("data")[0];
+    if (typeof data != "undefined") {
+        username = data.username;
+        password = data.password;
+    }
+    res.render("register", {
+        errors: req.flash("validationErrors"),
+        username,
+        password,
+    });
 });
 
 router.post(
@@ -16,12 +28,14 @@ router.post(
     async (req, res) => {
         try {
             await User.create(req.body);
+            res.redirect("/");
         } catch (error) {
             const validationErrors = Object.keys(error.errors).map(
                 (key) => error.errors[key].message
             );
             console.log(validationErrors);
             req.flash("validationErrors", validationErrors);
+            req.flash("data", req.body);
             res.redirect("/users/register");
         }
     }
