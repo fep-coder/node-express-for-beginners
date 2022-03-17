@@ -8,7 +8,11 @@ router.get("/register", (req, res) => {
 });
 
 router.post("/register", async (req, res) => {
-    await User.create(req.body);
+    try {
+        await User.create(req.body);
+    } catch (error) {
+        console.log(error);
+    }
     res.redirect("/");
 });
 
