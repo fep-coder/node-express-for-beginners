@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const fileUpload = require("express-fileupload");
 const path = require("path");
 const session = require("express-session");
+const flash = require("connect-flash");
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.use(
         saveUninitialized: true,
     })
 );
+app.use(flash());
 
 const validateMiddleware = (req, res, next) => {
     if (req.body.title == "" || req.body.body == "") {

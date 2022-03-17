@@ -7,7 +7,7 @@ const User = require("../models/User");
 const redirectIfAuthenticatedMiddleware = require("../middleware/redirectIfAuthenticatedMiddleware");
 
 router.get("/register", redirectIfAuthenticatedMiddleware, (req, res) => {
-    res.render("register");
+    res.render("register", { errors: req.flash("validationErrors") });
 });
 
 router.post(
@@ -17,9 +17,13 @@ router.post(
         try {
             await User.create(req.body);
         } catch (error) {
-            console.log(error);
+            const validationErrors = Object.keys(error.errors).map(
+                (key) => error.errors[key].message
+            );
+            console.log(validationErrors);
+            req.flash("validationErrors", validationErrors);
+            res.redirect("/users/register");
         }
-        res.redirect("/");
     }
 );
 
