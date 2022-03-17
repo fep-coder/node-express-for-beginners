@@ -52,6 +52,10 @@ app.use("/users", users);
 app.use("/posts", posts);
 app.use("/", posts);
 
+app.use((req, res) => {
+    res.render("404");
+});
+
 // Start the server
 app.listen(3000, () => {
     console.log("App listening on port 3000");
