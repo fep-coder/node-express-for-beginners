@@ -47,4 +47,11 @@ router.post("/login", redirectIfAuthenticatedMiddleware, async (req, res) => {
     }
 });
 
+router.get("/logout", (req, res) => {
+    req.session.destroy(() => {
+        req.app.locals.loggedIn = false;
+        res.redirect("/");
+    });
+});
+
 module.exports = router;
