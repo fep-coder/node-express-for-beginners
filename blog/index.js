@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const fileUpload = require("express-fileupload");
 const path = require("path");
+const session = require("express-session");
 
 const app = express();
 
@@ -17,6 +18,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(fileUpload());
+app.use(
+    session({
+        secret: "keyboard cat",
+        resave: false,
+        saveUninitialized: true,
+    })
+);
 
 const validateMiddleware = (req, res, next) => {
     if (req.body.title == "" || req.body.body == "") {

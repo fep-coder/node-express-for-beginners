@@ -6,6 +6,7 @@ const Post = require("../models/Post");
 
 router.get("/", async (req, res) => {
     const posts = await Post.find({});
+    console.log(req.session);
     res.render("index", { posts });
 });
 
@@ -14,7 +15,10 @@ router.get("/post/:id", async (req, res) => {
     res.render("post", { post });
 });
 router.get("/create", (req, res) => {
-    res.render("create");
+    if (req.session.userId) {
+        return res.render("create");
+    }
+    res.redirect("/users/login");
 });
 
 router.post("/posts/create", async (req, res) => {
