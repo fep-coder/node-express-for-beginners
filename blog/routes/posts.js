@@ -17,7 +17,7 @@ router.get("/post/:id", async (req, res) => {
     res.render("post", { post });
 });
 router.get("/create", authMiddleware, (req, res) => {
-    return res.render("create");
+    return res.render("create", { createPost: true });
 });
 
 router.post("/posts/create", async (req, res) => {
