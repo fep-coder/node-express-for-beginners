@@ -9,7 +9,11 @@ router.get("/", async (req, res) => {
     res.render("index", { posts });
 });
 
-router.get("/posts/create", (req, res) => {
+router.get("/post/:id", async (req, res) => {
+    const post = await Post.findById(req.params.id);
+    res.render("post", { post });
+});
+router.get("/create", (req, res) => {
     res.render("create");
 });
 

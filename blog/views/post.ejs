@@ -1,0 +1,28 @@
+<%- include('_layouts/header'); -%>
+
+    <div class="row">
+
+            <div class="col-3"></div>
+            <div class="col-6">
+
+                <div class="card">
+                    <img class="card-img-top img-fluid" src="/images/<%= post.image %>">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <%= post.title %>
+                        </h5>
+                        <p class="card-text">
+                            <%= post.body %>
+                        </p>
+                        <p>
+                            Posted by: <%= post.username %>
+                            <br>
+                            on <%= post.datePosted.toDateString() %>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3"></div>
+    </div>
+
+    <%- include('_layouts/footer'); -%>

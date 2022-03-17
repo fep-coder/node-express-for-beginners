@@ -36,6 +36,7 @@ app.get("/contact", (req, res) => {
     res.render("contact");
 });
 
+app.use("/posts", posts);
 app.use("/", posts);
 
 app.listen(3000, () => {
